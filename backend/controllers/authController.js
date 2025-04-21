@@ -15,7 +15,12 @@ const sendRes = (user, res, status, message) => {
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
-  res.status(status).json({ success: true, message });
+  res.status(status).json({ success: true, message, user:{
+    _id:user._id,
+    fullName:user.fullName,
+    email:user.email,
+    
+  } });
 };
 
 const register = async (req, res) => {

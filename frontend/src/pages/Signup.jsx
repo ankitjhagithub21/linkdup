@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
-
+    const { setUser } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -37,6 +38,7 @@ const Signup = () => {
 
             if (data.success) {
                 toast.success(data.message)
+                setUser(data.user)
                 navigate("/")
 
             } else {

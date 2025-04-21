@@ -3,9 +3,27 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { IoBag, IoNotifications } from "react-icons/io5";
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import toast from 'react-hot-toast';
+
 const Navbar = () => {
-  const { user } = useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(true)
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: 'include'
+      })
+
+      setUser(null)
+      toast.success("Logout successfull.")
+    } catch (error) {
+      setUser(null)
+      console.log(error)
+    }
+  }
+
   return (
     <div className='bg-white shadow w-full py-1'>
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
@@ -52,7 +70,7 @@ const Navbar = () => {
               <hr className='text-gray-200' />
               <b className='text-gray-700 inline-block my-1 font-medium'>Account</b>
               <div className='text-sm text-gray-600 flex flex-col gap-2 mb-2'>
-              
+
                 <p className='hover:underline cursor-pointer'>Settings & Privacy</p>
                 <p className='hover:underline cursor-pointer'>Help</p>
                 <p className='hover:underline cursor-pointer'>Language</p>
@@ -65,8 +83,7 @@ const Navbar = () => {
 
                 <p className='hover:underline cursor-pointer'>Posts & Activity</p>
                 <p className='hover:underline cursor-pointer'>Job Posting Account</p>
-                <p className='hover:underline cursor-pointer'>Sign out</p>
-
+                <p className='hover:underline cursor-pointer' onClick={handleLogout}>Sign out</p>
 
 
               </div>
