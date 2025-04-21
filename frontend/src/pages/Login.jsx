@@ -112,7 +112,7 @@ const Login = () => {
                 </div>
               
 
-                <form className='bg-white max-w-sm mx-auto rounded-lg shadow-lg p-5' onSubmit={handleSubmit}>
+                <form className='bg-white max-w-sm mx-auto rounded-lg shadow-lg p-5 mt-10' onSubmit={handleSubmit}>
                    <h1 className='text-4xl font-medium mb-4'>Sign in</h1>
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="email" className='text-gray-800'>Email</label>

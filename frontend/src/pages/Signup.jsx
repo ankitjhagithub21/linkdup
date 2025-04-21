@@ -145,7 +145,7 @@ const Signup = () => {
                         loading ? 'Please wait...' : 'Agree & Join'
                     }
                     </button>
-                    <p className='text-center my-5'>Already on LinkedIn? <Link to={"/login"} className='text-blue-800'>Sign in</Link>
+                    <p className='text-center my-5'>Already on LinkedIn? <Link to={"/login"} className='text-blue-800 hover:underline'>Sign in</Link>
                     </p>
                 </form>
 

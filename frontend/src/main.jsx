@@ -4,9 +4,13 @@ import './index.css'
 import App from './App.jsx'
 import { Toaster } from 'react-hot-toast'
 
+import UserContextProvider from './context/UserContext.jsx'
+
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+ <UserContextProvider>
+   <BrowserRouter>
   <Toaster/>
     <App />
-  </BrowserRouter>,
+  </BrowserRouter>
+ </UserContextProvider>
 )
