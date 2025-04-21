@@ -1,15 +1,18 @@
 import { createContext, useState, useEffect } from "react";
 
-export const UserContext = createContext({
+export const AuthContext = createContext({
   user: null,
-  setUser: () => {}
+  setUser: () => {},
+  loading:true
 });
 
-const UserContextProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUser = async () => {
+      setLoading(true)
       try {
         const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/user/current`, {
           credentials: "include"
@@ -25,6 +28,8 @@ const UserContextProvider = ({ children }) => {
       } catch (error) {
         console.error("Failed to fetch user:", error);
         setUser(null);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -32,10 +37,10 @@ const UserContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export default UserContextProvider;
+export default AuthContextProvider;

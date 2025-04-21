@@ -1,21 +1,27 @@
-import { Routes,Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import "./App.css"
 import Home from "./pages/Home"
 import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import { useContext } from "react"
-import UserContext from "./context/UserContext"
+import { AuthContext } from "./context/AuthContext"
+
 
 const App = () => {
-  const user = useContext(UserContext)
-  console.log(user)
+  const {user,loading} = useContext(AuthContext)
+  
+  if(loading){
+    return <p>Loading...</p>
+  }
+ 
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/signup" element={<Signup/>}/>
-      <Route path="/login" element={<Login/>}/>
-    </Routes>
+
+      <Routes>
+        <Route path="/" element={user ? <Home /> : <Navigate to={"/login"} />} />
+        <Route path="/signup" element={user ? <Navigate to={"/"} /> : <Signup />} />
+        <Route path="/login" element={user ? <Navigate to={"/"} /> : <Login />} />
+      </Routes>
     </>
 
   )
