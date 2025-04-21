@@ -1,0 +1,52 @@
+const { Schema, model } = require("mongoose");
+
+const userSchema = new Schema(
+  {
+    fullName: {
+      type: String,
+      required: true,
+      maxlength: 50,
+      trim:true
+    },
+
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Post",
+        default: [],
+      },
+    ],
+
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
+    connections: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
+  },
+  { versionKey: false, timestamps: true }
+);
+
+const User = model("User", userSchema);
+
+module.exports = User;
