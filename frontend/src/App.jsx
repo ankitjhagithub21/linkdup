@@ -11,7 +11,10 @@ const App = () => {
   const {user,loading} = useContext(AuthContext)
   
   if(loading){
-    return <p>Loading...</p>
+    return <div className="h-screen w-full flex flex-col gap-5 items-center justify-center">
+      <img src="./logo.jpg" alt="logo" className="w-15 h-16 rounded object-cover" />
+      <p className="text-gray-800 font-medium text-lg">Please Wait...</p>
+    </div>
   }
  
   return (
