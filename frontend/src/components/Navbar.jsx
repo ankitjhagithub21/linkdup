@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext)
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleLogout = async () => {
     try {
@@ -25,34 +25,34 @@ const Navbar = () => {
   }
 
   return (
-    <div className='bg-white shadow w-full py-1'>
+    <nav className='bg-white shadow w-full py-1'>
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
         <div className='flex items-center gap-2'>
           <img src="./logo.jpg" alt="logo" className='rounded h-10 w-10 object-cover' />
           <div className='md:flex hidden items-center bg-gray-200 px-2 rounded'>
-            <FaSearch />
-            <input type="text" placeholder='Search' className='outline-none bg-transparent p-2 max-w-md w-full' />
+            <FaSearch className='text-gray-800'/>
+            <input type="text" placeholder='Search' className='outline-none bg-transparent p-2 lg:w-[300px]' />
           </div>
         </div>
         <div className='flex  items-center gap-5  relative'>
 
-          <div className='flex flex-col items-center cursor-pointer text-gray-600 hover:text-gray-800 justify-center'>
+          <div className='flex flex-col items-center cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
             <FaHome size={25} />
             <span className="text-sm lg:block hidden">Home</span>
           </div>
-          <div className='flex flex-col items-center  cursor-pointer text-gray-600 hover:text-gray-800 justify-center'>
+          <div className='flex flex-col items-center  cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
             <BsFillPeopleFill size={25} />
             <span className='text-sm lg:block hidden'>My Network</span>
           </div>
-          <div className='flex flex-col items-center  cursor-pointer hover:text-gray-800 justify-center text-gray-600'>
+          <div className='flex flex-col items-center  cursor-pointer hover:text-gray-900 justify-center text-gray-600'>
             <IoBag size={25} />
             <span className='text-sm lg:block hidden'>Jobs</span>
           </div>
-          <div className='flex flex-col items-center  cursor-pointer hover:text-gray-800 justify-center text-gray-600'>
+          <div className='flex flex-col items-center  cursor-pointer hover:text-gray-900 justify-center text-gray-600'>
             <IoNotifications size={25} />
             <span className='text-sm lg:block hidden'>Notifications</span>
           </div>
-          <div className='flex flex-col items-center justify-center cursor-pointer text-gray-600 hover:text-gray-800' onClick={() => setIsOpen(!isOpen)}>
+          <div className='flex flex-col items-center justify-center cursor-pointer text-gray-600 hover:text-gray-900' onClick={() => setIsOpen(!isOpen)}>
             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" className='rounded-full cursor-pointer h-8 w-8 object-cover' />
             <span className='text-sm lg:block hidden'>Me</span>
           </div>
@@ -93,7 +93,7 @@ const Navbar = () => {
         </div>
       </div>
 
-    </div>
+    </nav>
   )
 }
 
