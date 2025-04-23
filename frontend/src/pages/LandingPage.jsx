@@ -7,7 +7,7 @@ const LandingPage = () => {
             <header>
                 <div className='container mx-auto py-4 px-3 flex justify-between items-center'>
                    <img src="https://content.linkedin.com/content/dam/brand/site/img/logo/logo-hero.png" alt="logo" className='w-32'/>
-                    <div className='flex items-center text-lg font-medium text-gray-600 gap-4'>
+                    <div className='lg:flex items-center text-lg font-medium text-gray-600 gap-4 hidden'>
                     <h2>Article</h2>
                     <h2>People</h2>
                     <h2>Learning</h2>

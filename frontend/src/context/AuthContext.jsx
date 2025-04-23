@@ -29,7 +29,7 @@ const AuthContextProvider = ({ children }) => {
         console.error("Failed to fetch user:", error);
         setUser(null);
       }finally{
-        // setLoading(false)
+        setLoading(false)
       }
     };
 
