@@ -1,7 +1,10 @@
-import React from 'react'
-import Logo from '../components/Logo'
+import { useEffect } from "react"
+
 
 const LandingPage = () => {
+    useEffect(()=>{
+        document.title = "LinkedIn: Log In or Sign Up"
+    },[])
     return (
         <>
             <header>
@@ -107,7 +110,7 @@ const LandingPage = () => {
                 </section>
 
             </main>
-            <footer></footer>
+            
         </>
     )
 }

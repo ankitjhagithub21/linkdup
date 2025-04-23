@@ -11,8 +11,9 @@ const sendRes = (user, res, status, message) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: 1 * 24 * 60 * 60 * 1000,
+    
   });
 
   res.status(status).json({ success: true, message, user:{
@@ -103,12 +104,13 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  res.clearCookie("token", "", {
+  res.cookie("token",'',{
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
-    maxAge: Date.now(),
-  });
+    sameSite: "none",
+    maxAge: 0,
+  })
+
   res.status(200).json({ success: true, message: "Logout successfull." });
 };
 

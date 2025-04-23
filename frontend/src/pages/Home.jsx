@@ -1,12 +1,26 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import Navbar from "../components/Navbar"
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { FaClipboardCheck } from "react-icons/fa6";
 import { MdArticle } from "react-icons/md";
+import { AuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import LandingPage from "../components/LandingPage";
 const Home = () => {
+
+  const {user,loading} = useContext(AuthContext)
+
   useEffect(() => {
     document.title = "Feed | Linkedln"
   }, [])
+
+  if(loading){
+      return <div className="h-screen w-full flex flex-col items-center justify"></div>
+  }
+
+  if(!user){
+    return <LandingPage/>
+  }
 
   return (
     <>
@@ -18,7 +32,7 @@ const Home = () => {
 
           </div>
           <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" className="w-16 h-16 object-cover rounded-full -mt-8 ml-5" />
-          <h1 className="mt-3 font-medium text-xl ml-5">Ankit Jha</h1>
+          <h1 className="mt-3 font-medium text-xl ml-5">{user.fullName}</h1>
           <div className="p-3 text-sm">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, ex.</p>
             <p>Lorem ipsum dolor sit amet.</p>
