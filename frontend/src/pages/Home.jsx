@@ -6,6 +6,7 @@ import { MdArticle } from "react-icons/md";
 import { AuthContext } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import LandingPage from "../components/LandingPage";
+import Logo from "../components/Logo";
 const Home = () => {
 
   const {user,loading} = useContext(AuthContext)
@@ -15,7 +16,10 @@ const Home = () => {
   }, [])
 
   if(loading){
-      return <div className="h-screen w-full flex flex-col items-center justify"></div>
+      return <div className="h-screen w-full flex  items-center justify-center">
+        <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*ui9IYpxhk1LNLB1B.gif" alt=""  />
+        
+      </div>
   }
 
   if(!user){

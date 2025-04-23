@@ -103,7 +103,7 @@ const login = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
+const logout = (req, res) => {
   res.cookie("token",'',{
     httpOnly: true,
     secure: true,
