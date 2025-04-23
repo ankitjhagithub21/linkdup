@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import { loginSchema } from '../validator/signupSchema'
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
    const {setUser} = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
+    const[errors,setErrors] = useState({})
 
     useEffect(() => {
         document.title = "LinkedIn Login, Sign in | LinkedIn"
@@ -22,34 +24,41 @@ const Login = () => {
         const data = Object.fromEntries(formData.entries())
         const {email,password} = data;
 
-        setLoading(true)
+       
 
-        try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: 'include',
-                body: JSON.stringify({email,password})
-
-            })
-            const data = await res.json()
-            
-            if(data.success){
-                toast.success(data.message)
-                setUser(data.user)
-                navigate("/")
+        const result = loginSchema.safeParse({email,password})
+        if(result.success){
+            setLoading(true)
+            setErrors({})
+            try {
+                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({email,password})
+    
+                })
+                const data = await res.json()
                 
-            }else{
-                toast.error(data.message)
+                if(data.success){
+                    toast.success(data.message)
+                    setUser(data.user)
+                    navigate("/")
+                    
+                }else{
+                    toast.error(data.message)
+                }
+    
+            } catch (error) {
+                console.log(error.message)
+                toast.error("Login failed. Please try again later.")
+            } finally {
+                setLoading(false)
             }
-
-        } catch (error) {
-            console.log(error.message)
-            toast.error("Login failed. Please try again later.")
-        } finally {
-            setLoading(false)
+        }else{
+            setErrors(result.error.formErrors.fieldErrors)
         }
     }
 
@@ -119,7 +128,9 @@ const Login = () => {
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="email" className='text-gray-800'>Email</label>
                         <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2' required />
-
+                        {
+                            errors?.email && <span className="text-sm text-red-600">{errors.email[0]}</span>
+                        }
                     </div>
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="password" className='text-gray-800'>Password</label>
@@ -131,7 +142,9 @@ const Login = () => {
                                 }
                             </span>
                         </div>
-
+                        {
+                            errors?.password && <span className="text-sm text-red-600">{errors.password[0]}</span>
+                        }
                     </div>
                     <div className='flex items-center gap-1 mb-3'>
                         <input type="checkbox" id='agree' className='cursor-pointer' name='agree' />

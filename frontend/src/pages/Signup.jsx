@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import { signupSchema } from '../validator/signupSchema'
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
     const { setUser } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         document.title = "Sign Up | Linkedln"
@@ -22,35 +24,46 @@ const Signup = () => {
         const data = Object.fromEntries(formData.entries())
         const { fullName, email, password } = data;
 
-        setLoading(true)
+        const result = signupSchema.safeParse({ fullName, email, password })
 
-        try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: 'include',
-                body: JSON.stringify({ fullName, email, password })
+        if (result.success) {
+            setErrors({})
+            setLoading(true)
+            try {
+                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ fullName, email, password })
 
-            })
-            const data = await res.json()
+                })
+                const data = await res.json()
 
-            if (data.success) {
-                toast.success(data.message)
-                setUser(data.user)
-                navigate("/")
+                if (data.success) {
+                    toast.success(data.message)
+                    setUser(data.user)
+                    navigate("/")
 
-            } else {
-                toast.error(data.message)
+                } else {
+                    toast.error(data.message)
+                }
+
+            } catch (error) {
+                console.log(error.message)
+                toast.error("Signup failed. Please try again later.")
+            } finally {
+                setLoading(false)
             }
+        } else {
 
-        } catch (error) {
-            console.log(error.message)
-            toast.error("Signup failed. Please try again later.")
-        } finally {
-            setLoading(false)
+            setErrors(result.error.formErrors.fieldErrors)
         }
+
+
+
+
     }
 
 
@@ -118,13 +131,17 @@ const Signup = () => {
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="fullName" className='text-gray-800'>Full Name</label>
                         <input type="text" id="fullName" name="fullName" className=' hover:outline border rounded-lg p-2' required />
-
+                        {
+                            errors?.fullName && <span className="text-sm text-red-600">{errors.name[0]}</span>
+                        }
                     </div>
 
                     <div className='mb-3 flex flex-col gap-1'>
-                        <label htmlFor="email" className='text-gray-800'>Email</label>
+                        <label htmlFor="text" className='text-gray-800'>Email</label>
                         <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2' required />
-
+                        {
+                            errors?.email && <span className="text-sm text-red-600">{errors.email[0]}</span>
+                        }
                     </div>
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="password" className='text-gray-800'>Password</label>
@@ -136,6 +153,10 @@ const Signup = () => {
                                 }
                             </span>
                         </div>
+                        {
+                            errors?.password && <span className="text-sm text-red-600">{errors.password[0]}</span>
+                        }
+
 
                     </div>
                     <div className='flex items-center gap-1'>
