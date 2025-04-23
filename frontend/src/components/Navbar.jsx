@@ -62,7 +62,7 @@ const Navbar = () => {
               <div className='flex items-start gap-2'>
                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" className='rounded-full cursor-pointer h-12 w-12 object-cover' />
                 <div>
-                  <h2 className='font-medium text-gray-900 '>Ankit Jha</h2>
+                  <h2 className='font-medium text-gray-900 '>{user.fullName}</h2>
                   <p className='text-sm'>Full Stack Developer and Freelancer</p>
                 </div>
               </div>
