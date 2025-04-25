@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
         <div className='flex items-center gap-2'>
           <Link to={"/"}>
-            <img src="./logo.jpg" alt="logo" className='rounded h-10 w-10 object-cover cursor-pointer' />
+            <img src="./logo.jpg" alt="logo" loading='lazy' className='rounded h-10 w-10 object-cover cursor-pointer' />
           </Link>
           <div className='md:flex hidden items-center bg-gray-200 px-2 rounded'>
             <FaSearch className='text-gray-800' />

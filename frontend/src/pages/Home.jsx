@@ -1,4 +1,5 @@
 import { useEffect,lazy } from "react"
+const UserInfo = lazy(()=>import("../components/UserInfo")) ;
 const Feed = lazy(() => import("../components/Feed"));
 
 const Home = () => {
@@ -9,7 +10,7 @@ const Home = () => {
 
   return (
     <>
-    
+        <UserInfo/>
         <Feed />
     
     </>
