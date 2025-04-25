@@ -61,12 +61,12 @@ const Navbar = () => {
           </div>
 
           {
-            user && isOpen && <div className='absolute top-14 lg:top-16 right-0 bg-white shadow rounded-lg border border-gray-200 p-2'>
+            user && isOpen && <div className='absolute top-14 md:w-[300px] w-[250px] lg:top-16 right-0 bg-white shadow rounded-lg border border-gray-200 p-2'>
               <div className='flex items-start gap-2'>
                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" className='rounded-full cursor-pointer h-12 w-12 object-cover' />
                 <div>
                   <h2 className='font-medium text-gray-900 '>{user.fullName}</h2>
-                  <p className='text-sm'>Full Stack Developer and Freelancer</p>
+                  <p className='text-sm'>{user.headline}</p>
                 </div>
               </div>
               <Link to={"/profile"} onClick={()=>setIsOpen(false)} className='w-full rounded-full  py-1 cursor-pointer font-medium  text-sm my-2 border border-blue-800 text-blue-800 hover:ring-2 ring-blue-800 inline-block text-center'>View Profile</Link>

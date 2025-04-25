@@ -5,7 +5,7 @@ const validator = require("validator");
 
 const sendRes = (user, res, status, message) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
+    expiresIn: "1d", 
   });
 
   res.cookie("token", token, {

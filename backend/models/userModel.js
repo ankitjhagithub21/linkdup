@@ -47,6 +47,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    
+    website: {
+      type: String,
+      default: '',
+    },
 
     posts: [
       {
