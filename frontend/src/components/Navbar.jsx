@@ -26,7 +26,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='bg-white shadow w-full py-1'>
+    <nav className='bg-white shadow w-full py-1 sticky top-0'>
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
         <div className='flex items-center gap-2'>
           <Link to={"/"}>
