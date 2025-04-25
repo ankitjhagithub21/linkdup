@@ -9,6 +9,33 @@ const userSchema = new Schema(
       trim:true
     },
 
+    profilePhoto:{
+      type:String,
+      default:"",
+    },
+    coverImage:{
+      type:String,
+      default:"",
+    },
+
+    headline:{
+      type:String,
+      default:"",
+    },
+
+    location:{
+      type:String,
+      default:""
+    },
+
+    position:{
+      type:String,
+      default:''
+    },
+    about:{
+      type:String,
+      default:""
+    },
 
     email: {
       type: String,

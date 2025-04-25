@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState,lazy } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { loginSchema } from '../validator/signupSchema'
-import Logo from '../components/Logo'
+const Logo = lazy(() => import("../components/Logo"));
+
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)

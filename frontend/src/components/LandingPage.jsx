@@ -1,10 +1,11 @@
 import { useEffect } from "react"
-
+import {Link} from "react-router-dom"
 
 const LandingPage = () => {
     useEffect(()=>{
         document.title = "LinkedIn: Log In or Sign Up"
     },[])
+    
     return (
         <>
             <header>
@@ -39,61 +40,61 @@ const LandingPage = () => {
 
                             </div>
                             <div className="w-full my-2 max-w-[400px] mx-auto">
-                                <a
+                                <Link
                                     className="my-2 py-1 btn-md btn-secondary min-h-[40px] w-full inline-flex gap-2 items-center border border-gray-300 font-medium text-gray-800 rounded-full justify-center bg-white"
-                                    href="/login"
+                                    to="/login"
 
                                 > <img src="https://i.pinimg.com/736x/3d/6a/2a/3d6a2ad56bc3403c5cfcc3efe09b741b.jpg" alt="" width={25} />
                                     Continue with microsoft
-                                </a>
+                                </Link>
 
 
-                                <a
+                                <Link
                                     className="my-2 py-1 btn-md btn-secondary min-h-[40px] w-full inline-flex items-center border border-gray-300 font-medium text-gray-800 rounded-full justify-center bg-white"
-                                    href="/login"
+                                    to="/login"
 
                                 > <img src="https://pngimg.com/d/google_PNG19635.png" alt="" width={35} />
                                     Sign in with email
-                                </a>
+                                </Link>
                             </div>
 
 
 
                             <p className="text-xs pb-2 text-center mt-3">
                                 By clicking Continue to join or sign in, you agree to LinkedIn’s{" "}
-                                <a
+                                <Link
                                     href='#'
 
 
                                 >
                                     User Agreement
-                                </a>
+                                </Link>
                                 ,{" "}
-                                <a
+                                <Link
                                     href='#'
 
 
                                 >
                                     Privacy Policy
-                                </a>
+                                </Link>
                                 , and{" "}
-                                <a
-                                    href="#"
+                                <Link
+                                    to="#"
 
 
                                 >
                                     Cookie Policy
-                                </a>
+                                </Link>
                                 .
                             </p>
                             <p className="text-center mt-10">
                                 New to LinkedIn?{" "}
-                                <a
-                                    href="/signup"
+                                <Link
+                                    to="/signup"
                                     className='text-blue-600 font-medium hover:underline'
                                 >
                                     Join now
-                                </a>
+                                </Link>
                             </p>
                         </div>
 

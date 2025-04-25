@@ -4,6 +4,7 @@ import { IoBag, IoNotifications } from "react-icons/io5";
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
+import { Link} from 'react-router-dom';
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext)
@@ -28,18 +29,20 @@ const Navbar = () => {
     <nav className='bg-white shadow w-full py-1'>
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
         <div className='flex items-center gap-2'>
-          <img src="./logo.jpg" alt="logo" className='rounded h-10 w-10 object-cover' />
+          <Link to={"/"}>
+            <img src="./logo.jpg" alt="logo" className='rounded h-10 w-10 object-cover cursor-pointer' />
+          </Link>
           <div className='md:flex hidden items-center bg-gray-200 px-2 rounded'>
-            <FaSearch className='text-gray-800'/>
+            <FaSearch className='text-gray-800' />
             <input type="text" placeholder='Search' className='outline-none bg-transparent p-2 lg:w-[300px]' />
           </div>
         </div>
         <div className='flex  items-center gap-5  relative'>
 
-          <div className='flex flex-col items-center cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
+          <Link to={"/"} className='flex flex-col items-center cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
             <FaHome size={25} />
             <span className="text-sm lg:block hidden">Home</span>
-          </div>
+          </Link>
           <div className='flex flex-col items-center  cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
             <BsFillPeopleFill size={25} />
             <span className='text-sm lg:block hidden'>My Network</span>
@@ -66,7 +69,7 @@ const Navbar = () => {
                   <p className='text-sm'>Full Stack Developer and Freelancer</p>
                 </div>
               </div>
-              <button className='w-full rounded-full  py-1 cursor-pointer font-medium  text-sm my-2 border border-blue-800 text-blue-800 hover:ring-2 ring-blue-800'>View Profile</button>
+              <Link to={"/profile"} onClick={()=>setIsOpen(false)} className='w-full rounded-full  py-1 cursor-pointer font-medium  text-sm my-2 border border-blue-800 text-blue-800 hover:ring-2 ring-blue-800 inline-block text-center'>View Profile</Link>
               <hr className='text-gray-200' />
               <b className='text-gray-700 inline-block my-1 font-medium'>Account</b>
               <div className='text-sm text-gray-600 flex flex-col gap-2 mb-2'>
