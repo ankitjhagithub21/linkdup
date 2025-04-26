@@ -4,11 +4,10 @@ const postSchema = new Schema(
   {
     description:{
         type:String,
-
     },
     image:{
         type:String,
-        required:true
+        
     },
     user:{
         type:Schema.Types.ObjectId,

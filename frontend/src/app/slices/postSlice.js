@@ -14,6 +14,9 @@ export const postSlice = createSlice({
       state.posts = action.payload
     },
 
+    addPost:(state,action) => {
+      state.posts = [action.payload, ...state.posts]
+    },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload
     },
@@ -22,6 +25,6 @@ export const postSlice = createSlice({
 })
 
 
-export const { setPosts,setIsLoading } = postSlice.actions
+export const { setPosts,setIsLoading, addPost} = postSlice.actions
 
 export default postSlice.reducer
