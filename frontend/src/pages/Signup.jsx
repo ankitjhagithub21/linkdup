@@ -78,7 +78,7 @@ const Signup = () => {
                 <form className='bg-white max-w-sm mx-auto rounded-lg shadow-lg p-5' onSubmit={handleSubmit}>
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="fullName" className='text-gray-800'>Full Name</label>
-                        <input type="text" id="fullName" name="fullName" className=' hover:outline border rounded-lg p-2'  />
+                        <input type="text" id="fullName" name="fullName" className=' hover:outline border rounded-lg p-2' required />
                         {
                             errors?.fullName && <span className="text-sm text-red-600">{errors.fullName[0]}</span>
                         }
@@ -86,7 +86,7 @@ const Signup = () => {
 
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="text" className='text-gray-800'>Email</label>
-                        <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2'  />
+                        <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2'  required/>
                         {
                             errors?.email && <span className="text-sm text-red-600">{errors.email[0]}</span>
                         }
@@ -94,7 +94,7 @@ const Signup = () => {
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="password" className='text-gray-800'>Password</label>
                         <div className="hover:outline border rounded-lg  flex items-center gap-1">
-                            <input type={showPassword ? 'text' : 'password'} name='password' id='password' className='w-full p-2 rounded-lg bg-transparent  h-full outline-none'  />
+                            <input type={showPassword ? 'text' : 'password'} name='password' id='password' className='w-full p-2 rounded-lg bg-transparent  h-full outline-none'  required/>
                             <span className='text-blue-600 font-medium cursor-pointer mx-2' onClick={() => setShowPassword(!showPassword)}>
                                 {
                                     showPassword ? 'Hide' : 'Show'

@@ -72,7 +72,7 @@ const Login = () => {
                    <h1 className='text-4xl font-medium mb-4'>Sign in</h1>
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="email" className='text-gray-800'>Email</label>
-                        <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2'  />
+                        <input type="text" name='email' id='email' className=' hover:outline border rounded-lg p-2'  required/>
                         {
                             errors?.email && <span className="text-sm text-red-600">{errors.email[0]}</span>
                         }
@@ -80,7 +80,7 @@ const Login = () => {
                     <div className='mb-3 flex flex-col gap-1'>
                         <label htmlFor="password" className='text-gray-800'>Password</label>
                         <div className="hover:outline border rounded-lg  flex items-center gap-1">
-                            <input type={showPassword ? 'text' : 'password'} name='password' id='password' className='w-full p-2 rounded-lg bg-transparent  h-full outline-none'  />
+                            <input type={showPassword ? 'text' : 'password'} name='password' id='password' className='w-full p-2 rounded-lg bg-transparent  h-full outline-none'  required/>
                             <span className='text-blue-600 font-medium cursor-pointer mx-2' onClick={() => setShowPassword(!showPassword)}>
                                 {
                                     showPassword ? 'Hide' : 'Show'
