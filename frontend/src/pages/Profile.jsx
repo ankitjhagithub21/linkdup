@@ -13,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     document.title = `${user.fullName} | Linkedln`
-  }, [])
+  }, [user])
 
 
 
@@ -46,13 +46,13 @@ const Profile = () => {
               <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} loading="lazy" alt="profile" className="w-full h-full object-cover" />
             
             </div>
-            <button className="rounded-full mr-5 py-3 mt-5 px-3 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={() => setShowUpdateProfile(true)}>
+            <button className="rounded-full mr-5 py-3  px-3 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={() => setShowUpdateProfile(true)}>
               <FaPencilAlt />
             </button>
           </div>
           <div className="lg:ml-10 ml-5">
-            <h1 className="text-3xl font-medium mt-4">{user.fullName}</h1>
-            <p className="text-xl mb-2">{user.headline}</p>
+            <h1 className="text-3xl font-medium my-2">{user.fullName}</h1>
+            <p className="text-gray-800 mb-2">{user.headline}</p>
             {
               user.website && <a href={user.website} target="_blank" className="text-blue-700 underline">Website</a>
             }
