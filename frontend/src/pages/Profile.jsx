@@ -46,7 +46,7 @@ const Profile = () => {
               <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} loading="lazy" alt="profile" className="w-full h-full object-cover" />
             
             </div>
-            <button className="rounded-full mr-5 py-3  px-3 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={() => setShowUpdateProfile(true)}>
+            <button className="rounded-full mr-3 px-4 mt-1 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={() => setShowUpdateProfile(true)}>
               <FaPencilAlt />
             </button>
           </div>

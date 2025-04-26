@@ -68,6 +68,13 @@ const userSchema = new Schema(
         default: [],
       },
     ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
     connections: [
       {
         type: Schema.Types.ObjectId,
