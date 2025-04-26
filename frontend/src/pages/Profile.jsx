@@ -3,10 +3,12 @@ import { AuthContext } from "../context/AuthContext"
 import UpdateProfile from "../components/UpdateProfile"
 import { FaPencilAlt } from "react-icons/fa"
 import UpdateCoverImage from "../components/UpdateCoverImage"
+import UpdateProfilePhoto from "../components/UpdateProfilePhoto"
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext)
   const [showUpdateProfile, setShowUpdateProfile] = useState(false)
+  const [showUpdateProfilePhoto, setShowUpdateProfilePhoto] = useState(false)
   const [showUpdateCoverImage, setShowUpdateCoverImage] = useState(false)
 
   useEffect(() => {
@@ -19,6 +21,9 @@ const Profile = () => {
     <>
       {
         showUpdateProfile && <UpdateProfile user={user} onClose={setShowUpdateProfile} setUser={setUser} />
+      }
+      {
+        showUpdateProfilePhoto && <UpdateProfilePhoto user={user} image={user.profilePhoto} onClose={setShowUpdateProfilePhoto} setUser={setUser} />
       }
 
       {
@@ -37,8 +42,9 @@ const Profile = () => {
             }
           </div>
           <div className="flex   justify-between">
-            <div className="w-32 h-32 rounded-full bg-white -mt-20 lg:ml-10 ml-5 overflow-hidden">
-              <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} loading="lazy" alt="profile" className="w-full h-full " />
+            <div className="w-32 h-32 rounded-full bg-white -mt-20 lg:ml-10 ml-5 overflow-hidden cursor-pointer " onClick={()=>setShowUpdateProfilePhoto(true)}>
+              <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} loading="lazy" alt="profile" className="w-full h-full object-cover" />
+            
             </div>
             <button className="rounded-full mr-5 py-3 mt-5 px-3 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={() => setShowUpdateProfile(true)}>
               <FaPencilAlt />
