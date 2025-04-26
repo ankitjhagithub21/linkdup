@@ -26,7 +26,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='bg-white shadow w-full py-1 sticky top-0'>
+    <nav className='bg-white shadow w-full py-1 sticky z-10 top-0'>
       <div className='flex items-center justify-between max-w-6xl mx-auto w-full px-3 lg:px-0'>
         <div className='flex items-center gap-2'>
           <Link to={"/"}>
@@ -56,14 +56,14 @@ const Navbar = () => {
             <span className='text-sm lg:block hidden'>Notifications</span>
           </div>
           <div className='flex flex-col items-center justify-center cursor-pointer text-gray-600 hover:text-gray-900' onClick={() => setIsOpen(!isOpen)}>
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" className='rounded-full cursor-pointer h-8 w-8 object-cover' />
+            <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="user" className='rounded-full cursor-pointer h-8 w-8 object-cover' />
             <span className='text-sm lg:block hidden'>Me</span>
           </div>
 
           {
-            user && isOpen && <div className='absolute top-14 md:w-[300px] w-[250px] lg:top-16 right-0 bg-white shadow rounded-lg border border-gray-200 p-2'>
+            user && isOpen && <div className='absolute top-14 md:w-[300px] z-0 w-[250px] lg:top-16 right-0 bg-white shadow rounded-lg border border-gray-200 p-2'>
               <div className='flex items-start gap-2'>
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user" className='rounded-full cursor-pointer h-12 w-12 object-cover' />
+                <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="user" className='rounded-full cursor-pointer h-12 w-12 object-cover' />
                 <div>
                   <h2 className='font-medium text-gray-900 '>{user.fullName}</h2>
                   <p className='text-sm'>{user.headline}</p>

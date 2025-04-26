@@ -53,9 +53,9 @@ const UpdateProfile = ({ onClose, user,setUser }) => {
 
     }
     return (
-        <div className='w-full h-screen flex items-center justify-center p-5 bg-black/50 fixed top-0 left-0'>
+        <div className='w-full h-screen z-50 flex items-center justify-center p-5 bg-black/50 fixed top-0 left-0'>
             <div className='max-w-lg w-full bg-white rounded-lg px-4  relative'>
-                <div className='flex items-center bg-white justify-between sticky py-2 border-gray-600 top-0  border-b'>
+                <div className='flex items-center bg-white justify-between sticky py-2 border-gray-300 top-0  border-b'>
                     <h1 className='text-2xl font-medium'>Edit Intro</h1>
                     <MdClose size={25} onClick={() => onClose(false)} cursor={"pointer"} />
                 </div>
