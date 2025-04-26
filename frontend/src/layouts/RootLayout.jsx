@@ -12,7 +12,7 @@ const RootLayout = () => {
 
     if (loading) {
         return <div className="h-screen w-full flex  items-center justify-center">
-            <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*ui9IYpxhk1LNLB1B.gif" alt="" />
+            <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*ui9IYpxhk1LNLB1B.gif" alt=""  className="w-full h-full object-cover object-center"/>
 
         </div>
     }

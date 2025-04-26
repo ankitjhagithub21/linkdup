@@ -36,12 +36,12 @@ const Profile = () => {
             {
               user.location && <p className="text-gray-600 my-2">{user.location}</p>
             }
-            <p className="text-blue-600 font-medium">{user.followers.length} followers {user.connections.length} connections</p>
+            <p className="text-blue-600 font-medium">{user?.followers?.length} followers {user?.connections?.length} connections</p>
           </div>
         </div>
 
-        <div className="bg-white border mt-5 border-gray-200 rounded-lg p-3">
-          <h2 className="text-2xl font-medium">About</h2>
+        <div className="bg-white border mt-5 border-gray-200 rounded-lg p-4">
+          <h2 className="text-3xl mb-2 font-medium">About</h2>
           <p>{user.about}</p>
         </div>
       </div>
