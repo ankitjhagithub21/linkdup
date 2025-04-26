@@ -9,10 +9,12 @@ import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 
 import "./App.css"
-
+import useGetAllPosts from "./hooks/useGetAllPosts";
 
 
 const App = () => {
+  
+  useGetAllPosts()
 
   const { user } = useContext(AuthContext)
 
