@@ -20,7 +20,14 @@ const sendRes = (user, res, status, message) => {
     _id:user._id,
     fullName:user.fullName,
     email:user.email,
-    
+    headline:user.headline,
+    about:user.about,
+    website:user.website,
+    location:user.location,
+    connections:user.connections,
+    followers:user.followers,
+    profilePhoto:user.profilePhoto,
+    coverImage:user.coverImage
   } });
 };
 
