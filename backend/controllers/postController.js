@@ -1,5 +1,7 @@
 const Post = require("../models/postModel");
+const deleteImage = require("../utils/deleteImage");
 const uploadImage = require("../utils/uploadImage");
+
 const CreatePost = async (req, res) => {
   try {
     const { description } = req.body;
@@ -69,7 +71,32 @@ const getAllPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+    
+    if(!post){
+      return res.status(404).json({ message: "Post not found.", success: false });
+    }
+
+    if(post.user.toString() !== req.userId.toString()){
+       return res.status(400).json({message:"You can't delete others post." , success:false});
+    }
+   
+    if(post.image){
+      await deleteImage(post.image);
+    }
+    await post.deleteOne();
+
+    res.status(200).json({message:"Post deleted.", success:true});
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Server error", success: false });
+  }
+};
+
 module.exports = {
   CreatePost,
   getAllPost,
+  deletePost
 };

@@ -13,10 +13,12 @@ const CreatePost = ({ user }) => {
             }
             <div className="bg-white px-3 border border-gray-300 rounded-lg py-3" >
 
-                <div className="flex gap-3 w-full items-center " >
-                    <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" className="w-12 h-12  rounded-full" />
+                <div className="flex gap-3 w-full " >
+                   <div>
+                   <img src={user.profilePhoto ? user.profilePhoto : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="" className="w-12 h-12 object-cover rounded-full" />
+                   </div>
                     
-                  <div onClick={() => setShowModal(true)} className="w-full border cursor-pointer  hover:bg-gray-100  border-gray-400 text-sm px-4 py-3 placeholder:text-gray-800 font-medium rounded-full outline-none ">
+                  <div onClick={() => setShowModal(true)} className="flex-1 border cursor-pointer  hover:bg-gray-100  border-gray-400 text-sm px-4 py-3 placeholder:text-gray-800 font-medium rounded-full outline-none ">
                     Start a Post
                   </div>
                 

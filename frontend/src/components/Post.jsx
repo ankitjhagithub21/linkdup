@@ -2,21 +2,26 @@ import { AiOutlineLike } from "react-icons/ai";
 import { LiaCommentSolid } from "react-icons/lia";
 import { BiRepost } from "react-icons/bi";
 import { IoIosSend } from "react-icons/io";
+import { FaTrash } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-
-const Post = ({post}) => {
-
+const Post = ({post,onDelete}) => {
+  const {user} = useContext(AuthContext)
   return (
     <div className="bg-white p-3 rounded-lg flex flex-col border border-gray-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 mb-2">
-          <img src={post.user.profilePhoto} className="w-14 h-14 object-cover rounded-full" alt="" />
+          <img src={post.user.profilePhoto ? post.user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' } className="w-12 h-12 object-cover rounded-full" alt="" />
           <div className="flex flex-col gap-0">
             <p className="text-sm font-medium">{post.user.fullName}</p>
             <p className="text-xs ">{post.user.headline}</p>
             <span className="text-xs">{post.createdAt.slice(0,10)}</span>
           </div>
         </div>
+        {
+          post.user._id === user._id &&  <FaTrash color="red" cursor={"pointer"} onClick={()=>onDelete(post._id)}/>
+        }
         
       </div>
       <p className="text-sm text-gray-800 mb-3">{post.description}</p>
