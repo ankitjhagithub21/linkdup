@@ -11,7 +11,7 @@ const CreatePost = ({ user }) => {
             {
                 showModal && <CreatePostModal user={user} onClose={setShowModal} />
             }
-            <div className="bg-white px-3 border border-gray-300 rounded-lg py-3" >
+            <div className="bg-white px-3 border border-gray-300 rounded-lg py-3 " >
 
                 <div className="flex gap-3 w-full " >
                    <div>

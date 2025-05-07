@@ -11,8 +11,8 @@ const RootLayout = () => {
     const { loading, user } = useContext(AuthContext)
 
     if (loading) {
-        return <div className="h-screen w-full flex  items-center justify-center">
-            <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*ui9IYpxhk1LNLB1B.gif" alt=""  className="w-full h-full object-cover object-center"/>
+        return <div className="h-screen w-full bg-white flex  items-center justify-center">
+            <img src="https://i.pinimg.com/originals/d3/3b/d9/d33bd9baa83a336184055c07dc8ccaa8.gif" alt=""  />
 
         </div>
     }

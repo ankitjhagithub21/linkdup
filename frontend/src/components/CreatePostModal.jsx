@@ -40,8 +40,8 @@ const CreatePostModal = ({ user, onClose }) => {
   }
 
   return (
-    <div className='w-full h-screen z-50   flex items-center justify-center p-5 bg-black/50 fixed top-0 left-0'>
-      <div className="bg-white max-w-3xl relative h-[90vh] flex flex-col overflow-y-scroll w-full p-5 rounded-lg ">
+    <div className='w-full h-screen z-50   flex items-center justify-center   p-5 bg-black/50 fixed top-0 left-0'>
+      <div className="bg-white max-w-3xl relative h-[90vh] flex flex-col overflow-y-scroll no-scrollbar w-full p-5 rounded-lg ">
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-2">
             <img src={user.profilePhoto ? user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt="user" className="w-16 h-16 border border-gray-300 object-cover rounded-full" />
