@@ -1,16 +1,13 @@
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { FaClipboardCheck } from "react-icons/fa6";
 import { MdArticle } from "react-icons/md";
-import { useState } from "react";
-import CreatePostModal from "./CreatePostModal";
 
-const CreatePost = ({ user }) => {
-    const [showModal, setShowModal] = useState(false)
+
+const CreatePost = ({ user,setShowModal }) => {
+  
     return (
         <>
-            {
-                showModal && <CreatePostModal user={user} onClose={setShowModal} />
-            }
+           
             <div className="bg-white px-3 border border-gray-300 rounded-lg py-3 " >
 
                 <div className="flex gap-3 w-full " >
