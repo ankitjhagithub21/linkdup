@@ -26,19 +26,28 @@ const CreatePost = async (req, res) => {
       }
     }
 
-    const post = new Post({
-      description: description?.trim() || null,
-      image: imageUrl,
-      user: req.userId,
-    });
+    let post;
+
+    if (imageUrl) {
+      post = new Post({
+        description: description?.trim() || '',
+        image: imageUrl,
+        user: req.userId,
+      });
+    } else {
+      post = new Post({
+        description: description?.trim() || '',
+        user: req.userId,
+      });
+    }
 
     await post.save();
 
     const savedPost = await post.populate({
-      path:"user",
-      select:"fullName profilePhoto headline"
+      path: "user",
+      select: "fullName profilePhoto headline"
     })
-    
+
     return res.status(201).json({
       success: true,
       post: savedPost,
@@ -58,11 +67,11 @@ const CreatePost = async (req, res) => {
 const getAllPost = async (req, res) => {
   try {
     const posts = await Post.find({})
-    .sort({ createdAt: -1 })
-    .populate({
-      path: "user",
-      select: "profilePhoto fullName headline",
-    });
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "user",
+        select: "profilePhoto fullName headline",
+      });
 
     res.status(200).json(posts);
   } catch (error) {
@@ -74,29 +83,58 @@ const getAllPost = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
-    
-    if(!post){
+
+    if (!post) {
       return res.status(404).json({ message: "Post not found.", success: false });
     }
 
-    if(post.user.toString() !== req.userId.toString()){
-       return res.status(400).json({message:"You can't delete others post." , success:false});
+    if (post.user.toString() !== req.userId.toString()) {
+      return res.status(400).json({ message: "You can't delete others post.", success: false });
     }
-   
-    if(post.image){
+
+    if (post.image) {
       await deleteImage(post.image);
     }
     await post.deleteOne();
 
-    res.status(200).json({message:"Post deleted.", success:true});
+    res.status(200).json({ message: "Post deleted.", success: true });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Server error", success: false });
   }
 };
 
+
+const likeUnlikePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found.", success: false });
+    }
+
+    const index = post.likes.findIndex((id) => id.toString() === post._id.toString())
+
+    if (index < 0) {
+      post.likes.push(post._id);
+
+    } else {
+      post.likes.splice(index, 1);
+    }
+
+    await post.save();
+
+    res.status(200).json({ message: "Post like count updated successfully.", success: true, post });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Server error", success: false });
+  }
+};
+
+
 module.exports = {
   CreatePost,
   getAllPost,
-  deletePost
+  deletePost,
+  likeUnlikePost
 };

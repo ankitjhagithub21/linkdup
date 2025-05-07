@@ -10,7 +10,7 @@ const Feed = () => {
     const { user } = useContext(AuthContext);
     const dispatch = useDispatch();
     const { posts, isLoading } = useSelector((state) => state.post);
-
+    
     const handleDeletePost = async (postId) => {
         const toastId = toast.loading("Post is deleting...");
         try {
@@ -34,6 +34,21 @@ const Feed = () => {
             toast.dismiss(toastId);
         }
     };
+    const handleLikeUnlike = async (postId) => {
+      
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/posts/${postId}/like`, {
+                method: "POST",
+                credentials: "include"
+            });
+
+            const data = await res.json();
+            console.log(data)
+        } catch (error) {
+            console.error("Delete error:", error);
+            toast.error("Error deleting post.");
+        } 
+    };
 
     return (
         <div className="lg:w-[50%] w-full overflow-hidden rounded-lg flex flex-col gap-3">
@@ -44,7 +59,7 @@ const Feed = () => {
                     <p>Loading...</p>
                 ) : (
                     posts.map((post) => (
-                        <Post key={post._id} post={post} onDelete={handleDeletePost} />
+                        <Post key={post._id} post={post} onDelete={handleDeletePost} onLike={handleLikeUnlike}/>
                     ))
                 )}
             </div>

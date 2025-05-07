@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa6";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-const Post = ({post,onDelete}) => {
+const Post = ({post,onDelete,onLike}) => {
   const {user} = useContext(AuthContext)
   return (
     <div className="bg-white p-3 rounded-lg flex flex-col border border-gray-300">
@@ -20,11 +20,11 @@ const Post = ({post,onDelete}) => {
           </div>
         </div>
         {
-          post.user._id === user._id &&  <FaTrash color="red" cursor={"pointer"} onClick={()=>onDelete(post._id)}/>
+          post.user._id === user._id &&  <button className="cursor-pointer" onClick={()=>onDelete(post._id)} ><FaTrash color="red"/></button>
         }
         
       </div>
-      <p className="text-sm text-gray-800 mb-3">{post.description}</p>
+      <p className="text-sm text-gray-800 my-2">{post.description}</p>
       {
         post.image && <img src={post.image} alt="photo" />
       }
@@ -35,7 +35,7 @@ const Post = ({post,onDelete}) => {
 
       </div>
       <div className="flex items-center justify-between  font-medium text-gray-800 mt-2">
-        <div className="flex items-center gap-1 cursor-pointer hover:bg-gray-200  px-4 py-1 rounded-lg">
+        <div className="flex items-center gap-1 cursor-pointer hover:bg-gray-200  px-4 py-1 rounded-lg" onClick={()=>onLike(post._id)}>
             <AiOutlineLike size={20}/>
             <span>Like</span>
         </div>
