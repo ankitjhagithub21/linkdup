@@ -61,6 +61,7 @@ const Feed = () => {
         setShowEditModal(true)
        
     }
+   
 
     return (
         <div className="lg:w-[50%] w-full overflow-hidden rounded-lg flex flex-col gap-3">

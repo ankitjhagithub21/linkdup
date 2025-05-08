@@ -133,7 +133,14 @@ const getAllPost = async (req, res) => {
       .populate({
         path: "user",
         select: "profilePhoto fullName headline",
-      });
+      }).populate({
+         path:"comments",
+         populate:{
+           path:'user',
+           select:"profilePhoto fullName headline"
+         }
+         
+      })
 
     res.status(200).json(posts);
   } catch (error) {

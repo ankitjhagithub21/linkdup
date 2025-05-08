@@ -6,6 +6,7 @@ const connectDB = require('./config/db')
 const authRouter = require('./routes/authRoutes')
 const userRouter = require('./routes/userRoutes')
 const postRouter = require('./routes/postRoutes')
+const commentRouter = require('./routes/commentRoutes')
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
 app.use("/api/posts",postRouter)
+app.use("/api/comments",commentRouter)
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)
