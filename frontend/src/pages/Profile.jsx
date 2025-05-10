@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react"
+import { lazy, useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
-import UpdateProfile from "../components/UpdateProfile"
+const UpdateProfile  = lazy(()=>import("../components/UpdateProfile")) 
 import { FaPencilAlt } from "react-icons/fa"
-import UpdateCoverImage from "../components/UpdateCoverImage"
-import UpdateProfilePhoto from "../components/UpdateProfilePhoto"
+const UpdateCoverImage = lazy(()=>import("../components/UpdateCoverImage")) 
+const UpdateProfilePhoto = lazy(()=>import("../components/UpdateProfilePhoto")) 
+const Navbar = lazy(() => import("../components/Navbar"));
+const News = lazy(() => import("../components/News"));
 
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext)
@@ -19,6 +21,7 @@ const Profile = () => {
 
   return (
     <>
+    <Navbar/>
       {
         showUpdateProfile && <UpdateProfile user={user} onClose={setShowUpdateProfile} setUser={setUser} />
       }
@@ -29,7 +32,9 @@ const Profile = () => {
       {
         showUpdateCoverImage && <UpdateCoverImage onClose={setShowUpdateCoverImage} image={user.coverImage} setUser={setUser}/>
       }
-      <div className="lg:w-[76%] w-full relative z-0">
+       <main className="max-w-6xl mx-auto w-full gap-4 lg:gap-0 px-3 md:px-0 pb-10 flex justify-between items-start
+        flex-wrap mt-5">
+           <div className="lg:w-[76%] w-full relative z-0">
 
         <div className="bg-white rounded-lg overflow-hidden z-10 pb-5 ">
           <button className="rounded-full py-3  absolute top-2 right-2  px-3 bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-800" onClick={()=>setShowUpdateCoverImage(true)}>
@@ -68,6 +73,9 @@ const Profile = () => {
           <p>{user.about}</p>
         </div>
       </div>
+      <News/>
+        </main>
+     
     </>
   )
 }

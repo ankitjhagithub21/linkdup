@@ -43,10 +43,10 @@ const Navbar = () => {
             <FaHome size={25} />
             <span className="text-sm lg:block hidden">Home</span>
           </Link>
-          <div className='flex flex-col items-center  cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
+          <Link to={"/mynetwork"} className='flex flex-col items-center  cursor-pointer text-gray-600 hover:text-gray-900 justify-center'>
             <BsFillPeopleFill size={25} />
             <span className='text-sm lg:block hidden'>My Network</span>
-          </div>
+          </Link>
           <div className='flex flex-col items-center  cursor-pointer hover:text-gray-900 justify-center text-gray-600'>
             <IoBag size={25} />
             <span className='text-sm lg:block hidden'>Jobs</span>
