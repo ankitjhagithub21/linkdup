@@ -8,6 +8,8 @@ import { AuthContext } from "../context/AuthContext";
 import { BsThreeDots } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { formatDistance, subDays } from "date-fns";
+
 
 
 const Post = ({ post, onDelete, onLike, onEdit }) => {
@@ -79,11 +81,11 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
     <div className="bg-white p-3 rounded-lg flex flex-col border border-gray-300">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2 mb-2">
-          <img src={post.user.profilePhoto ? post.user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} className="w-12 h-12 object-cover rounded-full" alt="" />
+          <img src={post.user.profilePhoto ? post.user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} className="w-12 h-12 border border-gray-300 object-cover rounded-full" alt="" />
           <div className="flex flex-col gap-0">
             <p className="text-sm font-medium">{post.user.fullName}</p>
-            <p className="text-xs ">{post.user.headline}</p>
-            <span className="text-xs">{post.createdAt.slice(0, 10)}</span>
+            <p className="text-xs text-gray-600 -mt-0.5">{post.user.headline}</p>
+            <span className="text-xs text-gray-600 -mt-0.5">{formatDistance(new Date(post.createdAt),new Date(), { addSuffix: true })}</span>
           </div>
         </div>
         {
@@ -122,9 +124,9 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
         post.image && <img src={post.image} className="my-2" alt="photo" />
       }
       <div className="flex mt-3 text-gray-500 text-sm font-medium border-b border-gray-300 pb-1 items-center justify-between">
-        <span>{post.likes.length} Likes</span>
+        <span>{post.likes.length} {post.likes.length > 1 ? 'likes' :'like'}</span>
 
-        <span>{comments.length} Comments</span>
+        <span>{comments.length} {comments.length > 1 ? 'comments' :'comment'}</span>
 
       </div>
       <div className="flex items-center justify-between  font-medium text-gray-800 mt-2">

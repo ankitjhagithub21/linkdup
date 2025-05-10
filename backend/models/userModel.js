@@ -78,7 +78,7 @@ const userSchema = new Schema(
     connections: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Connection",
         default: [],
       },
     ],

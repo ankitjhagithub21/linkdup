@@ -5,6 +5,7 @@ import { FaPencilAlt } from "react-icons/fa"
 const UpdateCoverImage = lazy(() => import("../components/UpdateCoverImage"))
 const UpdateProfilePhoto = lazy(() => import("../components/UpdateProfilePhoto"))
 const Navbar = lazy(() => import("../components/Navbar"));
+import { FaUserPlus } from "react-icons/fa";
 
 
 const Profile = () => {
@@ -65,11 +66,11 @@ const Profile = () => {
                 user.location && <p className="text-gray-600 my-2">{user.location}</p>
               }
               <p className="text-blue-600 font-medium">{user?.followers?.length} followers {user?.connections?.length}+ connections</p>
-              <div className="flex gap-3 items-center mt-3">
+              <div className="flex gap-3 flex-wrap items-center mt-3">
                 <button className="px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium cursor-pointer">Open to</button>
-                  <button className="px-4 py-1 text-blue-600 border-blue-600 border rounded-full font-medium cursor-pointer" onClick={() => setShowUpdateProfile(true)}>Add profile section</button>
-                     <button className="px-4 py-1 text-blue-600 border-blue-600 border rounded-full font-medium cursor-pointer">Enhance profile</button>
-                        <button className="px-4 py-1 text-gray-600 border-gray-600 border rounded-full font-medium cursor-pointer">Resources</button>
+                <button className="px-4 py-1 text-blue-600 border-blue-600 border rounded-full font-medium cursor-pointer" onClick={() => setShowUpdateProfile(true)}>Add profile section</button>
+                <button className="px-4 py-1 text-blue-600 border-blue-600 border rounded-full font-medium cursor-pointer">Enhance profile</button>
+                <button className="px-4 py-1 text-gray-600 border-gray-600 border rounded-full font-medium cursor-pointer">Resources</button>
               </div>
             </div>
           </div>
@@ -79,23 +80,42 @@ const Profile = () => {
             <p>{user.about}</p>
           </div>
         </div>
-        <div className="lg:w-[26%] w-full  bg-white rounded-lg p-3 border border-gray-300">
-          <div>
-            <div className="flex items-center  justify-between">
-              <h2 className="text-lg font-medium">Profile language</h2>
-              <FaPencilAlt />
+        <div className="lg:w-[26%] w-full ">
+          <div className=" bg-white rounded-lg p-3 border border-gray-300 mb-4">
+            <div>
+              <div className="flex items-center  justify-between">
+                <h2 className="text-lg font-medium">Profile language</h2>
+                <FaPencilAlt />
+              </div>
+              <span className="text-sm text-gray-600">English</span>
             </div>
-            <span className="text-sm text-gray-600">English</span>
+            <hr className="text-gray-200 my-4" />
+            <div>
+              <div className="flex items-center  justify-between">
+                <h2 className="text-lg font-medium">Public profile & URL</h2>
+                <FaPencilAlt />
+              </div>
+              <span className="text-sm text-gray-600">www.linkedin.com</span>
+            </div>
+
+
           </div>
-          <hr className="text-gray-200 my-4" />
-          <div>
-            <div className="flex items-center  justify-between">
-              <h2 className="text-lg font-medium">Public profile & URL</h2>
-              <FaPencilAlt />
+           <div className=" bg-white rounded-lg p-3 border border-gray-300">
+           <h2 className="font-medium mb-3">People you may know</h2>
+            <div className="flex gap-2 items-start">
+              <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="" className="w-14 h-14 rounded-full" />
+              <div>
+                  <h4 className="font-medium">User name</h4>
+                  <p className="text-xs">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error porro dolorem cupiditate molestiae</p>
+                  <button className="border flex items-center gap-2 border-gray-600 font-medium text-gray-600 rounded-full px-4 py-1 mt-2 text-sm">
+                    <FaUserPlus/>
+                    Connect</button>
+              </div>
             </div>
-            <span className="text-sm text-gray-600">www.linkedin.com</span>
+
           </div>
         </div>
+
       </main>
 
     </>

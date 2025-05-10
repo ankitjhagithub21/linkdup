@@ -43,13 +43,12 @@ const Feed = () => {
     const handleLikeUnlike = async (postId) => {
       
         try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/posts/${postId}/like`, {
+            await fetch(`${import.meta.env.VITE_SERVER_URL}/api/posts/${postId}/like`, {
                 method: "POST",
                 credentials: "include"
             });
 
-            const data = await res.json();
-            console.log(data)
+           
         } catch (error) {
             console.error("Delete error:", error);
             toast.error("Error deleting post.");
