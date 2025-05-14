@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Connection = require("../models/connectionModel");
-const User = require("../models/userModel"); // Make sure you import the User model
+const User = require("../models/userModel"); 
 
 const sendInvite = async (req, res) => {
     try {
@@ -54,31 +54,84 @@ const sendInvite = async (req, res) => {
     }
 };
 
-const acceptInvite = async (req, res) => {
+const changeStatus = async (req, res) => {
+  try {
+    
+    const {status,connectionId} = req.body;
+
+    // Validate connectionId
+    if (!mongoose.Types.ObjectId.isValid(connectionId)) {
+      return res.status(400).json({ message: "Invalid connection ID.", success: false });
+    }
+
+    // Find connection
+    const connection = await Connection.findById(connectionId);
+    if (!connection) {
+      return res.status(404).json({ message: "Connection not found.", success: false });
+    }
+
+    // Check if already accepted
+    if (connection.status === "accepted") {
+      return res.status(400).json({ message: "Invite already accepted.", success: false });
+    }
+
+    // Update connection status
+    connection.status = status;
+
+    // Find sender and receiver
+    const [sender, receiver] = await Promise.all([
+      User.findById(connection.sender),
+      User.findById(connection.receiver)
+    ]);
+
+    if (!sender || !receiver) {
+      return res.status(404).json({ message: "Sender or receiver not found.", success: false });
+    }
+
+    // Add connection to both users if not already present
+    if (!sender.connections.includes(connection._id)) {
+      sender.connections.push(connection._id);
+    }
+
+    if (!receiver.connections.includes(connection._id)) {
+      receiver.connections.push(connection._id);
+    }
+
+    // Save all
+    await Promise.all([
+      connection.save(),
+      sender.save(),
+      receiver.save()
+    ]);
+
+    return res.status(200).json({
+      message: "Status Changed successfully.",
+      success: true,
+      connection,
+    });
+
+  } catch (error) {
+    console.error("Error in acceptInvite:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
+  }
+};
+
+
+const getInvitation = async (req, res) => {
     try {
-        const { connectionId } = req.body;
+        
 
-        if (!mongoose.Types.ObjectId.isValid(connectionId)) {
-            return res.status(400).json({ message: "Invalid connection ID.", success: false });
-        }
-
-        const connection = await Connection.findById(connectionId);
-
-        if (!connection) {
-            return res.status(404).json({ message: "Connection not found.", success: false });
-        }
-
-        if (connection.status === "accepted") {
-            return res.status(400).json({ message: "Invite already accepted.", success: false });
-        }
-
-        connection.status = "accepted";
-        await connection.save();
-
-        return res.status(200).json({ message: "Invite accepted successfully.", success: true, connection });
+     const connections = await Connection.find({receiver:req.userId}).populate({
+        path:'sender',
+        select:"fullName profilePhoto headline"
+     })
+     return res.status(200).json(connections)
 
     } catch (error) {
-        console.error("Error in acceptInvite:", error);
+        console.error("Error in sendInvite:", error);
         return res.status(500).json({
             success: false,
             message: "Server error. Please try again later.",
@@ -86,7 +139,11 @@ const acceptInvite = async (req, res) => {
     }
 };
 
+
+
+
 module.exports = {
     sendInvite,
-    acceptInvite
+    changeStatus,
+    getInvitation
 };

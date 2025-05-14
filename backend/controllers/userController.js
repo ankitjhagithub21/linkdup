@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const uploadImage = require("../utils/uploadImage");
 
+
 const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -118,9 +119,24 @@ const updateCoverImage = async (req, res) => {
   }
 };
 
+const getOtherUsers = async (req, res) => {
+  try {
+   const users = await User.find({ _id: { $ne: req.userId } })
+                            .select('profilePhoto fullName headline');
+
+
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Server error", success: false });
+  }
+};
+
 module.exports = {
   getCurrentUser,
   updateProfile,
   updateProfilePhoto,
-  updateCoverImage
+  updateCoverImage,
+  getOtherUsers
 };

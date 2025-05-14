@@ -1,11 +1,11 @@
 import { lazy, useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
-const UpdateProfile = lazy(() => import("../components/UpdateProfile"))
 import { FaPencilAlt } from "react-icons/fa"
+const UpdateProfile = lazy(() => import("../components/UpdateProfile"))
 const UpdateCoverImage = lazy(() => import("../components/UpdateCoverImage"))
 const UpdateProfilePhoto = lazy(() => import("../components/UpdateProfilePhoto"))
 const Navbar = lazy(() => import("../components/Navbar"));
-import { FaUserPlus } from "react-icons/fa";
+const OtherUsers = lazy(()=>import("../components/OtherUsers"))
 
 
 const Profile = () => {
@@ -13,10 +13,30 @@ const Profile = () => {
   const [showUpdateProfile, setShowUpdateProfile] = useState(false)
   const [showUpdateProfilePhoto, setShowUpdateProfilePhoto] = useState(false)
   const [showUpdateCoverImage, setShowUpdateCoverImage] = useState(false)
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
     document.title = `${user.fullName} | Linkedln`
   }, [user])
+
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/posts/user`, {
+          credentials: 'include'
+        })
+       
+         if(res.ok){
+           const data = await res.json();
+           setPosts(data)
+         }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchPosts()
+  }, [])
 
 
 
@@ -79,6 +99,7 @@ const Profile = () => {
             <h2 className="text-3xl mb-2 font-medium">About</h2>
             <p>{user.about}</p>
           </div>
+        
         </div>
         <div className="lg:w-[26%] w-full ">
           <div className=" bg-white rounded-lg p-3 border border-gray-300 mb-4">
@@ -100,20 +121,7 @@ const Profile = () => {
 
 
           </div>
-           <div className=" bg-white rounded-lg p-3 border border-gray-300">
-           <h2 className="font-medium mb-3">People you may know</h2>
-            <div className="flex gap-2 items-start">
-              <img src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="" className="w-14 h-14 rounded-full" />
-              <div>
-                  <h4 className="font-medium">User name</h4>
-                  <p className="text-xs">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error porro dolorem cupiditate molestiae</p>
-                  <button className="border flex items-center gap-2 border-gray-600 font-medium text-gray-600 rounded-full px-4 py-1 mt-2 text-sm">
-                    <FaUserPlus/>
-                    Connect</button>
-              </div>
-            </div>
-
-          </div>
+         <OtherUsers/>
         </div>
 
       </main>

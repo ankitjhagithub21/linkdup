@@ -5,6 +5,7 @@ import { MdInsertPhoto } from "react-icons/md"
 import toast from "react-hot-toast"
 import { addPost } from "../app/slices/postSlice"
 
+
 const CreatePostModal = ({ user, onClose }) => {
   const [previewImage, setPreviewImage] = useState(null)
   const [loading, setLoading] = useState(false)

@@ -1,13 +1,14 @@
-import { useContext } from "react";
+import { useContext,lazy,useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import CreatePost from "./CreatePost";
-import Post from "./Post";
 import { useSelector, useDispatch } from "react-redux";
 import { setPosts } from "../app/slices/postSlice";
 import toast from "react-hot-toast";
-import CreatePostModal from "./CreatePostModal";
-import {useState} from "react"
-import EditPostModal from "./EditPostModal";
+
+const CreatePost = lazy(()=>import("./CreatePost"))
+const Post = lazy(()=>import("./Post"))
+const CreatePostModal = lazy(()=>import("./CreatePostModal"))
+const EditPostModal = lazy(()=>import("./EditPostModal"))
+
 
 const Feed = () => {
     const { user } = useContext(AuthContext);
