@@ -15,7 +15,7 @@ export const postSlice = createSlice({
     },
 
     addPost:(state,action) => {
-      state.posts = [action.payload, ...state.posts]
+      state.posts.unshift(action.payload); 
     },
     editPost:(state,action) => {
       state.posts = state.posts.map((post)=> post._id == action.payload._id ? action.payload : post)

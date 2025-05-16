@@ -1,4 +1,5 @@
 const Post = require("../models/postModel");
+const { io } = require("../server");
 const deleteImage = require("../utils/deleteImage");
 const uploadImage = require("../utils/uploadImage");
 
@@ -48,10 +49,12 @@ const CreatePost = async (req, res) => {
       select: "fullName profilePhoto headline"
     })
 
+    io.emit('newPost',{post:savedPost})
+
     return res.status(201).json({
       success: true,
-      post: savedPost,
       message: "Post created successfully.",
+      post:savedPost
     });
 
   } catch (error) {
@@ -189,6 +192,22 @@ const deletePost = async (req, res) => {
     }
     await post.deleteOne();
 
+   const posts = await Post.find({})
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "user",
+        select: "profilePhoto fullName headline",
+      }).populate({
+         path:"comments",
+         populate:{
+           path:'user',
+           select:"profilePhoto fullName headline"
+         }
+         
+      })
+      
+      io.emit('removePost',{posts})
+
     res.status(200).json({ message: "Post deleted.", success: true });
   } catch (error) {
     console.log(error.message);
@@ -199,29 +218,38 @@ const deletePost = async (req, res) => {
 
 const likeUnlikePost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id)
+    const post = await Post.findById(req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found.", success: false });
     }
 
-    const index = post.likes.findIndex((id) => id.toString() === post._id.toString())
+    const userId = req.userId; 
+
+    const index = post.likes.findIndex((id) => id.toString() === userId.toString());
 
     if (index < 0) {
-      post.likes.push(post._id);
-
+      post.likes.push(userId); // user is liking the post
     } else {
-      post.likes.splice(index, 1);
+      post.likes.splice(index, 1); // user is unliking the post
     }
 
     await post.save();
 
-    res.status(200).json({ message: "Post like count updated successfully.", success: true, post });
+    // Emit socket event to notify all clients
+    io.emit('likeUpdated', { likes: post.likes,postId:post._id });
+
+    res.status(200).json({
+      message: "Post like count updated successfully.",
+      success: true,
+    });
+
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: "Server error", success: false });
   }
 };
+
 
 
 module.exports = {

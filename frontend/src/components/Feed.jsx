@@ -1,9 +1,7 @@
-import { useContext,lazy,useState } from "react";
+import { useContext,lazy,useState} from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useSelector, useDispatch } from "react-redux";
-import { setPosts } from "../app/slices/postSlice";
 import toast from "react-hot-toast";
-
 const CreatePost = lazy(()=>import("./CreatePost"))
 const Post = lazy(()=>import("./Post"))
 const CreatePostModal = lazy(()=>import("./CreatePostModal"))
@@ -12,7 +10,6 @@ const EditPostModal = lazy(()=>import("./EditPostModal"))
 
 const Feed = () => {
     const { user } = useContext(AuthContext);
-    const dispatch = useDispatch();
     const { posts, isLoading } = useSelector((state) => state.post);
     const [showModal, setShowModal] = useState(false)
     const [showEditModal,setShowEditModal] = useState(false)
@@ -28,8 +25,6 @@ const Feed = () => {
 
             const data = await res.json();
             if (data.success) {
-                const updatedPosts = posts.filter((post) => post._id !== postId);
-                dispatch(setPosts(updatedPosts));
                 toast.success(data.message);
             } else {
                 toast.error(data.message);
@@ -62,6 +57,7 @@ const Feed = () => {
        
     }
    
+    
 
     return (
         <div className="lg:w-[50%] w-full overflow-hidden rounded-lg flex flex-col gap-3">

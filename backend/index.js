@@ -1,36 +1,44 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-const connectDB = require('./config/db')
-const authRouter = require('./routes/authRoutes')
-const userRouter = require('./routes/userRoutes')
-const postRouter = require('./routes/postRoutes')
-const commentRouter = require('./routes/commentRoutes')
-const connectionRouter = require('./routes/connectionRoutes')
-const app = express()
-const port = process.env.PORT || 3000
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const connectDB = require('./config/db');
 
-connectDB()
+const authRouter = require('./routes/authRoutes');
+const userRouter = require('./routes/userRoutes');
+const postRouter = require('./routes/postRoutes');
+const commentRouter = require('./routes/commentRoutes');
+const connectionRouter = require('./routes/connectionRoutes');
+const { server, app, io } = require('./server');
 
-app.use(express.json())
+// Connect to database
+connectDB();
+
+// Middleware
+app.use(express.json());
 app.use(cors({
-  origin:process.env.ORIGIN,
-  credentials:true
-}))
+  origin: process.env.ORIGIN,
+  credentials: true,
+}));
+app.use(cookieParser());
+app.set("io", io); 
 
-app.use(cookieParser())
-
+// Routes
 app.get('/', (req, res) => {
-  res.status(200).json({message:"Api working.",success:true})   
-})
+  res.status(200).json({ message: "API working.", success: true });
+});
 
-app.use("/api/auth",authRouter)
-app.use("/api/user",userRouter)
-app.use("/api/posts",postRouter)
-app.use("/api/comments",commentRouter)
-app.use("/api/connections",connectionRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
+app.use("/api/connections", connectionRouter);
 
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`)
-})
+
+// Start server
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
+
+

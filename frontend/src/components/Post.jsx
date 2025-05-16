@@ -8,18 +8,22 @@ import { AuthContext } from "../context/AuthContext";
 import { BsThreeDots } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { formatDistance, subDays } from "date-fns";
+import { formatDistance } from "date-fns";
+import { useEffect } from "react";
+import socket from "../socket";
 
 
 
 const Post = ({ post, onDelete, onLike, onEdit }) => {
+
   const { user } = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(false)
   const [isMore, setIsMore] = useState(false)
   const [showInput, setShowInput] = useState(false)
   const [description, setDescription] = useState('')
   const [comments, setComments] = useState(post.comments)
-  const [isCommentLoading,setIsCommentLoading] = useState(false)
+  const [isCommentLoading, setIsCommentLoading] = useState(false)
+  const [likes,setLikes] = useState(post.likes)
 
   const handleAddComment = async (description, postId) => {
     if (description.trim().length < 1) {
@@ -39,7 +43,6 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
       const data = await res.json();
       if (data.success) {
         toast.success(data.message)
-        setComments([...comments,data.comment])
         setDescription('')
       } else {
         toast.error(data.message)
@@ -47,13 +50,13 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
     } catch (error) {
       toast.error(error.message)
       console.log(error)
-    }finally{
+    } finally {
       setIsCommentLoading(false)
     }
   }
 
-  const handleDeleteComment = async (commentId,postId) => {
-   
+  const handleDeleteComment = async (commentId, postId) => {
+
     try {
       const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/comments/${commentId}`, {
         method: "DELETE",
@@ -67,7 +70,6 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
       const data = await res.json();
       if (data.success) {
         toast.success(data.message)
-        setComments(comments.filter((comment)=>comment._id != commentId))
       } else {
         toast.error(data.message)
       }
@@ -77,6 +79,32 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
     }
   }
 
+
+  useEffect(() => {
+    const handleLikeUpdate = (data) => {
+      if(post._id === data.postId){
+         setLikes(data.likes)
+      }
+    };
+
+    const updateComment = (data) => {
+      if(post._id === data.postId){
+         setComments(data.comments)
+      }
+    }
+   
+
+    socket.on('likeUpdated', handleLikeUpdate);
+    socket.on('commentAdded',updateComment)
+    socket.on('commentRemove',updateComment)
+
+    return () => {
+      socket.off('likeUpdated', handleLikeUpdate);
+      socket.off('commentAdded',updateComment)
+      socket.off('commentRemove',updateComment)
+    };
+  }, []);
+
   return (
     <div className="bg-white p-3 rounded-lg flex flex-col border border-gray-300">
       <div className="flex items-start justify-between">
@@ -85,7 +113,7 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
           <div className="flex flex-col gap-0">
             <p className="text-sm font-medium">{post.user.fullName}</p>
             <p className="text-xs text-gray-600 -mt-0.5">{post.user.headline}</p>
-            <span className="text-xs text-gray-600 -mt-0.5">{formatDistance(new Date(post.createdAt),new Date(), { addSuffix: true })}</span>
+            <span className="text-xs text-gray-600 -mt-0.5">{formatDistance(new Date(post.createdAt), new Date(), { addSuffix: true })}</span>
           </div>
         </div>
         {
@@ -124,9 +152,9 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
         post.image && <img src={post.image} className="my-2" alt="photo" />
       }
       <div className="flex mt-3 text-gray-500 text-sm font-medium border-b border-gray-300 pb-1 items-center justify-between">
-        <span>{post.likes.length} {post.likes.length > 1 ? 'likes' :'like'}</span>
+        <span>{likes.length} {likes.length > 1 ? 'likes' : 'like'}</span>
 
-        <span>{comments.length} {comments.length > 1 ? 'comments' :'comment'}</span>
+        <span>{comments.length} {comments.length > 1 ? 'comments' : 'comment'}</span>
 
       </div>
       <div className="flex items-center justify-between  font-medium text-gray-800 mt-2">
@@ -158,37 +186,37 @@ const Post = ({ post, onDelete, onLike, onEdit }) => {
               <input type="text" placeholder="Add a comment..." className="w-full p-2 outline-none" value={description} onChange={(e) => setDescription(e.target.value)} />
               <button disabled={isCommentLoading} className="rounded-full disabled:bg-indigo-400 min-w-fit bg-indigo-600 text-white my-1 mr-1 text-sm  cursor-pointer hover:bg-indigo-700 px-2 py-1.5" onClick={() => handleAddComment(description, post._id)}>
                 {
-                  isCommentLoading ? 'Please Wait...' :'Comment'
+                  isCommentLoading ? 'Please Wait...' : 'Comment'
                 }
               </button>
             </div>
 
 
           </div>
-         {
-          comments.length > 0 &&   <p className="font-medium text-sm text-gray-600">Most relevant</p>
-         }
+          {
+            comments.length > 0 && <p className="font-medium text-sm text-gray-600">Most relevant</p>
+          }
           <div>
             {
               comments.map((comment) => {
                 return <div key={comment._id} className="relative">
-                 <div className="flex items-start justify-between my-2">
-                 <div className="flex items-start gap-2 mb-2">
-                    <img src={comment.user.profilePhoto ? comment.user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} className="w-10 h-10 object-cover rounded-full" alt="" />
-                    <div className="flex flex-col">
-                      <p className="text-sm font-medium">{comment.user.fullName}</p>
-                      <p className="text-xs -mt-1">{comment.user.headline}</p>
-                    
-                      <p className="text-sm mt-2 text-gray-600">{comment.description}</p>
+                  <div className="flex items-start justify-between my-2">
+                    <div className="flex items-start gap-2 mb-2">
+                      <img src={comment.user.profilePhoto ? comment.user.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} className="w-10 h-10 object-cover rounded-full" alt="" />
+                      <div className="flex flex-col">
+                        <p className="text-sm font-medium">{comment.user.fullName}</p>
+                        <p className="text-xs -mt-1">{comment.user.headline}</p>
+
+                        <p className="text-sm mt-2 text-gray-600">{comment.description}</p>
+                      </div>
                     </div>
+                    {
+                      comment.user._id === user._id && <button className="cursor-pointer " onClick={() => handleDeleteComment(comment._id, post._id)}>
+                        <FaTrash />
+                      </button>
+                    }
                   </div>
-                 {
-                  comment.user._id === user._id &&  <button className="cursor-pointer " onClick={()=>handleDeleteComment(comment._id,post._id)}>
-                  <FaTrash/>
-                </button>
-                 }
-                 </div>
-                 
+
                 </div>
               })
             }

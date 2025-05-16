@@ -1,5 +1,6 @@
 const Comment = require("../models/commentModel");
 const Post = require("../models/postModel");
+const { io } = require("../server");
 
 const addComment = async (req, res) => {
   try {
@@ -35,17 +36,15 @@ const addComment = async (req, res) => {
     post.comments.push(savedComment._id);
     await post.save();
 
-    // Populate user field in the saved comment
-    const populatedComment = await savedComment.populate({
-      path: 'user',
-      select: 'fullName profilePhoto headline',
-    });
+    const populatedComments = await Comment.find({post:post._id})
+      .populate("user", "fullName profilePhoto headline");
+
+    io.emit("commentAdded",{comments:populatedComments,postId:post._id})
 
     // Send response
     return res.status(201).json({
       success: true,
       message: "Comment added successfully.",
-      comment: populatedComment,
     });
 
   } catch (error) {
@@ -113,6 +112,11 @@ const deleteComment = async (req, res) => {
 
     // Delete comment document
     await comment.deleteOne();
+
+    const populatedComments = await Comment.find({post:post._id})
+      .populate("user", "fullName profilePhoto headline");
+
+    io.emit("commentRemove",{comments:populatedComments,postId:post._id})
 
     return res.status(200).json({
       success: true,
