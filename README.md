@@ -114,12 +114,12 @@ Create `.env` files in `client/` and `server/` directories for storing API keys,
 3. **Install dependencies**
 
 ```bash
-# Client
-cd client
+# Frontend
+cd frontend
 npm install
 
-# Server
-cd ../server
+# Backend
+cd ../backend
 npm install
 ```
 
