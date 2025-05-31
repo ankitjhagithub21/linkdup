@@ -133,10 +133,25 @@ const getOtherUsers = async (req, res) => {
   }
 };
 
+const getOtherUserProfile = async(req,res) => {
+  try{
+    const userId = req.params.id;
+    const user = await User.findById(userId).select("-password")
+    if(!user){
+      return res.status(404).json({message:"User not found.",success:false})
+    }
+
+    res.status(200).json({success:true,user})
+  }catch(error){
+    res.status(500).json({message:"Server error",success:false})
+  }
+}
+
 module.exports = {
   getCurrentUser,
   updateProfile,
   updateProfilePhoto,
   updateCoverImage,
-  getOtherUsers
+  getOtherUsers,
+  getOtherUserProfile
 };

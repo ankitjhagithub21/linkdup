@@ -1,45 +1,45 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 import toast from "react-hot-toast"
 import Invitation from "./Invitation"
 
 
 const Invitations = () => {
     const [data, setData] = useState([])
-    const [loading,setLoading] = useState(true)
-    useEffect(()=>{
-        const fetchData = async() => {
-            try{
-                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/connections`,{
-                    credentials:'include'
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/connections`, {
+                    credentials: 'include'
                 })
-              if(res.ok){
-                  const resData = await res.json()
-                 setData(resData)
-              }
-            }catch(error){
+                if (res.ok) {
+                    const resData = await res.json()
+                    setData(resData)
+                }
+            } catch (error) {
                 console.log(error)
-            }finally{
+            } finally {
                 setLoading(false)
             }
         }
         fetchData()
-    },[])
+    }, [])
 
-    const handleChangeStatus = async(connectionId,status) => {
-        try{
-            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/connections/change/status`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
+    const handleChangeStatus = async (connectionId, status) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/connections/change/status`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                credentials:'include',
-                body:JSON.stringify({connectionId,status})
+                credentials: 'include',
+                body: JSON.stringify({ connectionId, status })
             })
             const data = await res.json();
-           if(data.success){
+            if (data.success) {
                 toast.success(data.message)
-           }
-        }catch(error){
+            }
+        } catch (error) {
             console.log(error)
         }
     }
@@ -52,8 +52,8 @@ const Invitations = () => {
             <hr className='text-gray-200' />
             <div>
                 {
-                  loading ? <p className="p-2">Loading...</p> : data.length===0 ? <p className="p-2">No invitation Found</p> :  data.map((item) => {
-                        return <Invitation key={item._id} item={item} changeStatus={handleChangeStatus}/>
+                    loading ? <p className="p-2">Loading...</p> : data.length === 0 ? <p className="p-2">No invitation Found</p> : data.map((item) => {
+                        return <Invitation key={item._id} item={item} changeStatus={handleChangeStatus} />
                     })
                 }
 

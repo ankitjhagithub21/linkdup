@@ -3,11 +3,13 @@ import { useState, useEffect,useContext } from "react"
 import { FaUserPlus } from "react-icons/fa"
 import { AuthContext } from "../context/AuthContext"
 import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 
 const OtherUsers = () => {
     const [users, setUsers] = useState([])
     const {user} = useContext(AuthContext)
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchOtherUsers = async () => {
             try {
@@ -55,8 +57,8 @@ const OtherUsers = () => {
 
                 {
                     users.map((u) => {
-                        return <div className="flex gap-2 items-start" key={u._id}>
-                            <img src={u.profilePhoto ? u.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={u.fullName} className="w-14 h-14 object-cover border border-gray-200 rounded-full" />
+                        return <div className="flex gap-2 items-start" key={u._id} >
+                            <img onClick={()=>navigate(`/profile/${u._id}`)} src={u.profilePhoto ? u.profilePhoto : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'} alt={u.fullName} className="w-14 h-14 cursor-pointer object-cover border border-gray-200 rounded-full" />
                             <div>
                                 <h4 className="font-medium">{u.fullName}</h4>
                                 <p className="text-xs">{u.headline}</p>

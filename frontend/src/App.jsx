@@ -11,6 +11,7 @@ import { addPost, setPosts } from "./app/slices/postSlice"
 import { useDispatch } from "react-redux";
 import "./App.css"
 import socket from "./socket";
+const OtherUserProfile = lazy(()=>import("./pages/OtherUserProfile")) 
 
 
 const App = () => {
@@ -54,6 +55,7 @@ const App = () => {
 
         <Route path="/" element={user ? <Home /> : <LandingPage />} />
         <Route path="/profile" element={user ? <Profile /> : <Navigate to={"/"} />} />
+        <Route path="/profile/:id" element={user ? <OtherUserProfile /> : <Navigate to={"/"} />} />
         <Route path="mynetwork" element={user ? <Mynetwork /> : <Navigate to={"/"} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
